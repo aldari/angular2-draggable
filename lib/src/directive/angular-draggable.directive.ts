@@ -49,6 +49,7 @@ export class AngularDraggableDirective implements OnInit {
   @Output() started = new EventEmitter<any>();
   @Output() stopped = new EventEmitter<any>();
   @Output() edge = new EventEmitter<any>();
+  @Output() lastPosition = new EventEmitter<any>();
 
   /** Make the handle HTMLElement draggable */
   @Input() handle: HTMLElement;
@@ -90,6 +91,9 @@ export class AngularDraggableDirective implements OnInit {
       }
     }
   }
+  
+  @Input() X: number = 0;
+  @Input() Y: number = 0;
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
@@ -98,6 +102,11 @@ export class AngularDraggableDirective implements OnInit {
       let element = this.handle ? this.handle : this.el.nativeElement;
       this.renderer.addClass(element, 'ng-draggable');
     }
+
+    this.orignal = new Position(0, 0);
+    this.pickUp();
+    this.moveTo(new Position(this.X, this.Y));
+    this.putBack();
   }
 
   resetPosition() {
@@ -198,6 +207,7 @@ export class AngularDraggableDirective implements OnInit {
 
     if (this.moving) {
       this.stopped.emit(this.el.nativeElement);
+      this.lastPosition.emit(this.oldTrans);
 
       if (this.bounds) {
         this.edge.emit(this.boundsCheck());

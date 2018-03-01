@@ -4,7 +4,7 @@
     <div class="mt-4">
       <tabset>
         <tab heading="demo">
-          <div ngDraggable class="drag-block">Drag Me!</div>
+          <div ngDraggable class="drag-block" [X]="400" [Y]="100" (lastPosition)="trackPosition($event)">Drag Me!</div>
         </tab>
         <tab heading="html">
           <markdown [data]="demo_html | language: 'html'"></markdown>

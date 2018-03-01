@@ -12,4 +12,8 @@ export class BasicComponent implements OnInit {
 
   ngOnInit() { }
 
+  public trackPosition(event: any): void {
+    console.log(event);
+  }
+
 }
